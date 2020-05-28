@@ -1,0 +1,99 @@
+.logo2142  {
+    display: block;
+    margin: 50px auto 50px;
+    width: 100%;
+    img{
+        width:95%;
+        max-width: 700px;
+    }
+  }
+
+.img2 {
+  float: right;
+}
+.regulations{
+  width:100%;
+  margin: 0 auto;
+  max-width: 1000px;
+  text-align: justify;
+
+  h1,h2{
+    text-align: center;
+  }
+  margin-bottom: 50px;
+}
+
+.img3 {
+  float: right;
+  max-width: 20%;
+  height: auto;
+  padding: 5px;
+}
+.why-start{
+  width:100%;
+  
+  .inner{
+    display: grid;
+    margin: 0 auto;
+    grid-template-columns: 1fr 1fr;
+    width:100%;
+    max-width: 800px;
+    justify-content: center;
+    align-items: center;
+    padding: 35px 0;
+
+      img{
+        width:100%;
+      }
+    
+
+    @media(max-width: 850px){
+      
+        padding:35px 20px;
+        grid-template-columns: 1fr 1fr
+     
+    }
+    @media(max-width: 890px){
+      grid-template-columns: 100%;
+      text-align: center;
+      img{
+        width:90%;
+        margin-bottom: 20px;
+      }
+  }
+  }
+}
+
+.tekst3 {
+  margin: 90px;
+}
+
+.tekst4 {
+  margin: 90px;
+}
+
+.foto {
+  margin: 20px;
+  display: block;
+  margin-left: 10%;
+  margin-right: auto;
+  width: 30%;
+}
+
+.hline {
+  width: 100%;
+  height: 1px;
+  background: #9e5151;
+}
+
+.img4 {
+  float: right;
+  max-width: 20%;
+  height: auto;
+  padding: 5px;
+}
+
+.grid.purples {
+  background: #43259E;
+  color: #fefefe;
+}

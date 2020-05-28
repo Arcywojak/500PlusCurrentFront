@@ -1,0 +1,136 @@
+@mixin hamburger-line{
+    content: '';
+    width:100%;
+    height:3px;
+    position: absolute;
+    background: #7600a1;
+    
+}
+
+
+.header-mobile{
+    background: #fefefe;
+    text-align: right;
+    padding-right: 20px;
+    box-sizing: border-box ;
+    position: fixed;
+    z-index: 2;
+    width:99%;
+    -webkit-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75);
+    top:2px;
+    height:50px;
+    
+
+    img{
+        width:70px;
+        position: relative;
+        display: inline-block;
+        margin-right: calc(100% - 145px);
+        top:6px
+        
+    }
+}
+
+.hamburger{
+    padding:10px;
+    display: inline-block;
+    cursor: pointer;
+    background: transparent;
+    border:0;
+    margin:0;
+    
+}
+.hamburger-box{
+    width:40px;
+    height:24px;
+    display:inline-block;
+    position: relative;
+}
+
+.hamburger-inner{
+    @include hamburger-line;
+    left:0;
+    top:calc(50% - 1.5px);
+    transition: background-color .3s .1s ease-in-out;
+
+    &::before,&::after{
+    @include hamburger-line;
+    left:0;
+    transition: transform .3s .1s ease-in-out;
+    }
+
+    &::before{
+    top:-10px;
+    }
+    &::after{
+    top:10px;   
+    }
+}
+
+.hamburger-active .hamburger-inner{
+ background: transparent;
+}
+
+.hamburger ,.navigation{
+    transition: transform .3s .1s ease-in-out;
+}
+
+.hamburger-active .hamburger-inner::before{
+    transform:translateY(10px) rotate(45deg) ;
+
+}
+.hamburger-active .hamburger-inner::after{
+    transform:translateY(-10px) rotate(-45deg) ;
+}
+
+.navigation{
+    width:99%;
+    height:calc(100vh - 60px);
+    position: fixed;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    background: #fefefe;
+    top:55px;
+    left:0;
+    transform: translateX(-100%);
+    z-index: 2;
+    -webkit-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75);
+}
+
+
+.navigation-active{
+    transform: translateX(0px);   
+}
+
+.navigation-list{
+  
+    list-style:none;
+    text-align: center;
+    padding:0;
+}
+
+.navigation-item{
+    margin: 5vh;
+    font-size: 40px;
+    a{
+        text-decoration: none;
+        color:gray;
+    }
+    overflow: auto;
+    
+}
+
+a.active{
+ color:#7600a1;
+}
+.filler-mobile{
+    margin-top: 40px;
+}
+
+
+ 

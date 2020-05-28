@@ -1,0 +1,17 @@
+body{
+    margin: 0 auto;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    box-sizing: border-box;
+    width:100%;
+    min-width: 300px;   
+}
+
+@media(min-width:800px){
+    main{
+        min-height: calc(100vh - 135px) ;
+    }
+}
+
+
+
