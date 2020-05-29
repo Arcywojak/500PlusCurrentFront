@@ -1,0 +1,134 @@
+.after-register-fixed-logo {
+  position: fixed;
+  background-color: #311b92;
+  width: 40%;
+  top: 0;
+  z-index: 3;
+  height: 85px;
+  padding: 10px;
+  text-align: left;
+}
+
+.after-register-fixed-logo img {
+  height: 80px;
+  margin-left: 4vw;
+}
+
+.after-register-block {
+  display: -ms-grid;
+  display: grid;
+  position: relative;
+  -ms-grid-columns: 40% 60%;
+      grid-template-columns: 40% 60%;
+  min-height: 90vh;
+}
+
+.after-register-block-first {
+  background-color: #311b92;
+  color: #fefefe;
+}
+
+.after-register-block-first-inner {
+  padding: 0 4vw;
+}
+
+.after-register-block-first-inner img {
+  max-width: 50%;
+  margin: 2vw 0;
+  max-height: 400px;
+}
+
+.after-register-block-first h1 {
+  font-size: 3em;
+  font-weight: 600;
+}
+
+.after-register-block-first p {
+  font-size: 1.5em;
+}
+
+.after-register-block-second {
+  padding: 2vw 3vw 2vw 4vw;
+}
+
+.after-register-block-second-inner {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 0 0 auto;
+}
+
+.after-register-block-second-inner.shorter {
+  min-height: 45%;
+}
+
+.after-register-block-second-inner.longer {
+  min-height: 80%;
+}
+
+.after-register-block-second-inner h1 {
+  font-size: 2.5em;
+  font-weight: 500;
+  margin-top: 0;
+}
+
+.after-register-block-second-inner p {
+  font-size: 1.5em;
+  padding: 0 5.1vw;
+}
+
+.after-register-line {
+  background-color: #311b92;
+  width: 95%;
+  margin: 0 auto;
+  height: 3px;
+}
+
+.after-register-btn {
+  display: block;
+  margin: 0 0 0 auto;
+  background-color: #311b92;
+  color: #fefefe;
+  border-radius: 30px;
+  border: none;
+  font-size: 20px;
+  width: 190px;
+  height: 55px;
+  cursor: pointer;
+}
+
+.after-register-span {
+  display: block;
+  margin: 0 0 0 auto;
+  width: 190px;
+  cursor: pointer;
+  margin-top: 15px;
+  text-decoration: underline;
+  color: gray;
+}
+
+.back-btn {
+  width: 161px;
+  height: 44px;
+  display: block;
+  margin: 0 auto 40px 0;
+  border: none;
+  border-radius: 5px;
+  background-color: #311B92;
+  color: #fefefe;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.changing-content {
+  height: 100%;
+}
+
+.invisible {
+  top: 122px;
+  position: absolute;
+  opacity: 0;
+  right: 3vw;
+  z-index: -1;
+}
+/*# sourceMappingURL=afterRegister.css.map */
