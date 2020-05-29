@@ -1,4 +1,4 @@
-To see at https://arcywojak.github.io/test-gitPage/
+To see at https://500plus.netlify.app/
 Test version of home component for coZa500plus
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
