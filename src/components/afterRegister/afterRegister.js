@@ -80,12 +80,8 @@ class AfterRegister extends Component {
         if(this.state.idBlock != 0){
 
             let {idBlock} = this.state 
-            console.log(idBlock-1)
             const currentBlock = document.getElementsByClassName(`changing-content`)[idBlock]
             const prevBlock = document.getElementsByClassName(`changing-content`)[idBlock-1]
-
-            console.log(currentBlock)
-            console.log(prevBlock)
 
             currentBlock.classList.add("invisible");
             prevBlock.classList.remove("invisible")

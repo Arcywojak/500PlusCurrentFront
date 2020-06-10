@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {NavLink} from 'react-router-dom';
+import {NavLink, Redirect} from 'react-router-dom';
 import './login.min.css';
 import fb from '../../images/fb.svg'
 
@@ -8,7 +8,17 @@ class Register extends Component {
     state = {
         email:'',
         password:'',
-        error:''
+        error:'',
+        redirect : null
+    }
+
+    componentDidMount(){
+        if(sessionStorage.user_name != undefined){   
+            this.setState({redirect : true})
+        }
+        else{
+            this.setState({redirect : false}) 
+        }
     }
 
     handleChange = (e) => {
@@ -20,32 +30,37 @@ class Register extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-     /*   const user = {
+        const user = {
             email: this.state.email,
             password: this.state.password
-        }*/
-
-        if(false){
-            //LOGOWANIE UDALO SIE
-
-        } else {
-            //LOGOWANIE NIE UDALO SIE
-
-        if(!this.state.error){
-            this.setState({
-                error:'Logowanie nie powiodło się'
-            })
-
-            setTimeout(() => {
-                if(this.state.error){
-                    this.setState({
-                        error:''
-                    })
-                }
-            },3000)
         }
-            
-        }
+
+        fetch(`http://vps817819.ovh.net:50/users/?email=${user.email}&password=${user.password}`, {
+            method : 'GET'
+        })
+        .then(response =>{
+            return response.json()
+        })
+        .then(data=>{
+
+            /* Logowanie udało się */
+            if(typeof(data) == "object"){
+                console.log(data)
+            }
+            else{
+                this.setState({
+                    error:'Logowanie nie powiodło się'
+                })
+    
+                setTimeout(() => {
+                    if(this.state.error){
+                        this.setState({
+                            error:''
+                        })
+                    }
+                },3000)
+            }
+        })
     }
 
    
@@ -61,6 +76,11 @@ class Register extends Component {
         return (
             <main className="container-register">
 
+
+                {/* jeżeli jesteś zalogowany to karta logowania jest zablokowana, 
+                jest to dodatkowe zabezpieczenie jakby ktoś i tak spróbował wpisac url 
+                tej strony , bo i tak jeżeli ktoś jest zalogowany to nie widzi tego w menu*/}
+                {(this.state.redirect) ? <Redirect to="/"/> : null}
                 {errorMessage}
 
                 <form className="register-form login" onSubmit={this.handleSubmit}>
