@@ -14,7 +14,11 @@ class Header extends Component {
     }
 
     
-    
+    LogOut = () =>{
+        sessionStorage.removeItem('user_name')
+        sessionStorage.removeItem('user_id')
+        sessionStorage.removeItem('user_email')
+    }
 
     HandleClickOpenNot = (event = '') => {
         let opt = document.querySelector('.notification-list.N2');
@@ -89,7 +93,7 @@ render() {
                             <li className="notification-item-line"></li>
 
                             <li className="notification-item-link">
-                                <a href="">KNOTO</a>
+                                <a href="" onClick={this.LogOut}>Wyloguj się</a>
                             </li>
 
                             
@@ -138,7 +142,7 @@ render() {
   )
   
   //SPRAWDZENIE CZY ZALOGOWANY
-  const isLoggedDeskop = this.state.loggedIn ? (deskopLoggedIn) : (deskopLoggedOut)
+  const isLoggedDeskop = sessionStorage.user_name != undefined ? (deskopLoggedIn) : (deskopLoggedOut)
   /////////////////////////////  
 
     return ( 
