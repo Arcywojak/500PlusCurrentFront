@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './register.min.css';
 import fb from '../../images/fb.svg'
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 
 class Register extends Component {
 
@@ -18,7 +18,8 @@ class Register extends Component {
         password:'',
         repPassword:'',
         error:'',
-        accepted_policy : [false, false] 
+        accepted_policy : [false, false],
+        redirect : false
     }
 
     handleChange = (e) => {
@@ -125,11 +126,25 @@ class Register extends Component {
                         sessionStorage.setItem('user_name', data.username)
                         sessionStorage.setItem('user_id', data.id)
                         sessionStorage.setItem('user_email', data.email)
+
+                        this.setState({
+                            redirect : true
+                        })
                     }
     
                     // BŁĄD albo 404 albo user istnieje czyli rejestracja nie udała się
                     else{
-    
+                        this.setState({
+                            error:'Coś poszło nie tak'
+                        })
+            
+                        setTimeout(() => {
+                            if(this.state.error){
+                                this.setState({
+                                    error:''
+                                })
+                            }
+                        },3000)
                     }
                 })
             }
@@ -182,6 +197,9 @@ class Register extends Component {
             <main className="container-register">
 
                 {errorMessage}
+
+                {/* To jest przekierowanie do strony po-rejestracji, jeżeli rejestracja powiodła się */}
+                {(this.state.redirect) ? <Redirect to="/po-rejestracji"/> : null}
 
                 <form className="register-form" onSubmit={this.handleSubmit}>
                     <div className="register-form-1st">

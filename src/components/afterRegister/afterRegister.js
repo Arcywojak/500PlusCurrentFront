@@ -15,6 +15,7 @@ import cap from '../../images/cap.svg';
 import capWhite from '../../images/capWhite.svg';
 import shoes from '../../images/shoes.svg';
 import shoesWhite from '../../images/shoesWhite.svg';
+import {Redirect, Link} from 'react-router-dom'
 
 class AfterRegister extends Component {
 
@@ -36,13 +37,27 @@ class AfterRegister extends Component {
                 "active": capWhite,
                 "disabled": cap
             }
-        ]
+        ],
+        redirect : null,
+        idBlock : 0   /* potrzebne do cofania kart */
     }
 
+
+    componentDidMount(){
+        if(sessionStorage.user_name == undefined || sessionStorage.user_name == null){   
+           this.setState({redirect : true})
+        }
+        else{   
+            this.setState({redirect : false})
+        }
+    }
     goToNextBlock = (idBlock, idImg=null) => {
 
         console.log(idBlock)
         const currentBlock = document.querySelector(`.changing-content#nr${idBlock}`)
+        this.setState({
+            idBlock : parseInt(idBlock)
+        })
         
         const nextBlock = document.querySelector(`.changing-content#nr${Number(idBlock)+1}`)
 
@@ -56,6 +71,33 @@ class AfterRegister extends Component {
 
             currentImage.classList.add("invisible");
             nextImage.classList.remove("invisible")
+        }
+    }
+
+    goToPrevBlock = () =>{
+
+        /* jeżeli jest równe 0 to oznacza, że użytkownik jest na samym początku i chce wyjść z tej strony */
+        if(this.state.idBlock != 0){
+
+            let {idBlock} = this.state 
+            console.log(idBlock-1)
+            const currentBlock = document.getElementsByClassName(`changing-content`)[idBlock]
+            const prevBlock = document.getElementsByClassName(`changing-content`)[idBlock-1]
+
+            console.log(currentBlock)
+            console.log(prevBlock)
+
+            currentBlock.classList.add("invisible");
+            prevBlock.classList.remove("invisible")
+
+            this.setState({
+                idBlock : idBlock-1
+            })
+        }
+        else{
+            this.setState({
+                redirect: true
+            })
         }
     }
 
@@ -94,9 +136,15 @@ class AfterRegister extends Component {
     }
 
     render(){
+        
         return(
         
             <main>
+
+                {/* ta strona powinna być widoczna tylko dla świeżo zarejestrowanych użytkowników */}
+                {(this.state.redirect) ? <Redirect to="/"/> : null}
+
+
                 <div className="after-register-block">
                     <section className="after-register-block-first">
 
@@ -127,7 +175,7 @@ class AfterRegister extends Component {
                         </div>
                     </section>
                     <section className="after-register-block-second">
-                        <button className="back-btn">
+                        <button className="back-btn" onClick={this.goToPrevBlock}>
                             <i class="fas fa-chevron-left icon"></i>  POWRÓT
                         </button>
 
@@ -149,7 +197,9 @@ class AfterRegister extends Component {
                                 DO DZIEŁA!
                             </button>
 
-                            <span className="after-register-span">Skonfiguruj później</span>
+                            <Link to='/'>
+                                <span className="after-register-span">Skonfiguruj później</span>
+                            </Link>
 
                         </div>
 
