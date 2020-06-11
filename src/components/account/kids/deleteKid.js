@@ -6,15 +6,39 @@ import PropTypes from 'prop-types';
 import exit from '../../../images/x.png';
 import boyAvatar from '../../../images/Boy Avatar.svg'
 import './kids.min.css';
+import {Redirect} from 'react-router-dom';
 
 class DeleteKid extends Component {
 
+
+    state={
+        redirect : false
+    }
     static propTypes = {
         editUser : PropTypes.func
     }    
 
     deleteKid = () => {
-        removeAll();
+
+        fetch(`http://vps817819.ovh.net:50/children/?child_id=${this.props.kid.id}&parent_email=${sessionStorage.getItem('user_email')}`, {
+            method : "DELETE"
+        })
+        .then(response =>{
+            return response.json()
+        })
+        .then(data=>{
+            
+            if(data == 'Child deleted properly'){
+                /*this.props.reRender()
+                removeAll()*/
+            }
+            else{
+
+                /* BŁAD ZAPYTANIA */
+                console.log(data)
+            }
+        })
+        
 
         //  const userId = this.props.userId;
         // const deletedKidId = this.props.kid.id;
@@ -28,6 +52,9 @@ class DeleteKid extends Component {
 
     return (
         <div className="delete-kid-block" onSubmit={this.deleteKid}>
+
+            {(this.state.redirect) ? <Redirect to="moje-konto"/> : null}
+
             <div className="flying-exit" onClick={removeAll}>
                 <img src={exit} alt="usuń"/>
             </div>

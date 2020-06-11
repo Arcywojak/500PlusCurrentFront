@@ -16,6 +16,7 @@ import OfferDetails from './offers/offerDetails';
 import UserSettings from './userSettings/userSettings';
 import DeleteKid from './kids/deleteKid';
 import {Redirect} from 'react-router-dom';
+import Interest from './interests/interest'
 import ActivityLogout from './userSettings/userSettingsChildren/securityChildren/activityLogout';
 import {
         toggleSettings, 
@@ -66,7 +67,7 @@ class Account extends Component {
                 return response.json()
             })
             .then(data =>{
-                console.log(data)
+                this.setState({interest_list : data})
             })
         }
         else{
@@ -138,9 +139,9 @@ class Account extends Component {
 
 
     changeActualKid = (id) => {
-        let index = this.state.DUMMY_DATA.findIndex( (item) => item.id === id)
+        let index = this.state.kids_list.findIndex( (item) => item.id === id)
         this.setState({
-            actualKid:this.state.DUMMY_DATA[index]
+            actualKid:this.state.kids_list[index]
         })
        
     }
@@ -150,6 +151,10 @@ class Account extends Component {
         this.setState({
             actualOffer:this.state.DUMMY_OFFERS[index]
         })
+    }
+
+    reRender = () =>{
+        this.forceUpdate()
     }
 
 render(){
@@ -172,6 +177,12 @@ render(){
         )
     })
 
+    const listOfInterests = this.state.interest_list.map((el)=>{
+        return(
+            <Interest offer={el.interest.name} key={el.id} id={el.id}/>
+        )
+    })
+
     
     /*************************************************************/
 
@@ -191,7 +202,7 @@ render(){
                 <AddKid />
             </div>
             <div className="flying-block delete-kid-wrapper anim-fade-in none">
-                <DeleteKid kid={this.state.actualKid} />
+                <DeleteKid kid={this.state.actualKid} reRender={this.reRender}/>
             </div>
             <div className="flying-block edit-kid-wrapper anim-fade-in none">
                 <KidDetails kid={this.state.actualKid} />    
@@ -247,9 +258,9 @@ render(){
                 </div>   
             </div>
             <div className="offer-list wrapping-border">
-                <h1 className="fine-text">Ulubione oferty:</h1>
+                <h1 className="fine-text">Zainteresowania</h1>
                 <div className="offers-block">
-                    {listOfOffers}
+                    {listOfInterests}
                 </div>
                   
             </div>
