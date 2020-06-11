@@ -153,9 +153,6 @@ class Account extends Component {
         })
     }
 
-    reRender = () =>{
-        this.forceUpdate()
-    }
 
 render(){
 
@@ -196,7 +193,7 @@ render(){
 
 
             <div className="flying-block user-settings-wrapper anim-fade-in none">
-                <UserSettings />
+                <UserSettings/>
             </div>
             <div className="flying-block add-new-kid-wrapper anim-fade-in none">
                 <AddKid />

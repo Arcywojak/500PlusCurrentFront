@@ -2,7 +2,7 @@ import React from 'react';
 import './userSettings.css';
 import '../account.min.css';
 import x from '../../../images/exit.png';
-import deleteAccount from '../../../images/Delete.svg';
+import deleteAccount1 from '../../../images/Delete.svg';
 import edit from '../../../images/Edit.svg';
 import security from '../../../images/Security.svg';
 
@@ -40,9 +40,9 @@ const UserSettings = () => {
                     <div className="first-text-and-img first DELETE_ACCOUNT"
                     onClick={() => changeSecondSection('DELETE_ACCOUNT')}>
                         <div className="img">
-                            <img src={deleteAccount} alt="opcja" />
+                            <img src={deleteAccount1} alt="opcja" />
                         </div>
-                        <div className="text">
+                        <div className="text" >
                             Usuń konto
                         </div>
                     </div>
