@@ -46,6 +46,12 @@ class Register extends Component {
             /* Logowanie udało się */
             if(typeof(data) == "object"){
                 console.log(data)
+                sessionStorage.setItem('user_name', data.username)
+                sessionStorage.setItem('user_id', data.id)
+                sessionStorage.setItem('user_email', data.email)
+                this.setState({
+                    redirect:true
+                })
             }
             else{
                 this.setState({

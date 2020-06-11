@@ -39,7 +39,8 @@ class AfterRegister extends Component {
             }
         ],
         redirect : null,
-        idBlock : 0   /* potrzebne do cofania kart */
+        idBlock : 0,   /* potrzebne do cofania kart */
+        interestList : []
     }
 
 
@@ -96,6 +97,62 @@ class AfterRegister extends Component {
             })
         }
     }
+
+    interestCheck = (name) =>{
+
+        let {interestList} = this.state
+        let updatedList = []
+
+        let check = interestList.findIndex((el)=>{
+            return el == name
+        })
+        
+        /* jeżeli check ma -1 to znaczy że trzeba dodac element, 
+        w innym wypadku user odznaczył opcję, więc usuwamy */
+        if(check == -1){
+            interestList.push(name) 
+        }
+        else{
+            interestList.splice(check, 1)
+        }
+        this.setState({interestList : interestList})
+
+    }
+
+
+    submitAfterData = () =>{
+
+        let API_string = ""
+        let {interestList} = this.state
+
+        interestList.forEach((el, index)=>{
+
+            /* Gdyby w przyszłości pojawiła się kategoria ze spacją, API wymaga by spację zastąpić %20 */
+            let toPut = el.replace(" ", "%20")
+            
+            if(index != 0){
+                API_string += `,${toPut}`
+            }
+            else{
+                API_string += `${toPut}`
+            }
+            
+            
+        })
+        console.log(API_string)
+
+        let {user_id} = sessionStorage
+        fetch(`http://vps817819.ovh.net:50/preferences/?id=${user_id}&interests=${API_string}`, {
+            method : "POST"
+        })
+        .then(response=>{
+            return response.json()
+        })
+        .then(data =>{
+            console.log(data)
+        })
+    }
+
 
     changeInput = (id) => {
 
@@ -382,29 +439,32 @@ class AfterRegister extends Component {
                                     <div className="after-register-tag-wrapper-inner">
                                         <div className="inner-scroll">
                                         
-                                            <input id="sport1" type="checkbox" />
-                                            <label htmlFor="sport1">Sport</label>
+                                            <input id="Technologia" type="checkbox" />
+                                            <label htmlFor="Technologia" onClick={()=>{this.interestCheck('Technologia')}}>Technologia</label>
 
-                                            <input id="sport2" type="checkbox" />
-                                            <label htmlFor="sport2">Sport</label>
+                                            <input id="Zabawa" type="checkbox" />
+                                            <label htmlFor="Zabawa" onClick={()=>{this.interestCheck('Zabawa')}}>Zabawa</label>
 
-                                            <input id="sport3" type="checkbox" />
-                                            <label htmlFor="sport3">Sport</label>
+                                            <input id="Sztuka" type="checkbox" />
+                                            <label htmlFor="Sztuka" onClick={()=>{this.interestCheck('Sztuka')}}>Sztuka</label>
 
-                                            <input id="sport4" type="checkbox" />
-                                            <label htmlFor="sport4">Sport</label>
+                                            <input id="Edukacja" type="checkbox" />
+                                            <label htmlFor="Edukacja" onClick={()=>{this.interestCheck('Edukacja')}}>Edukacja</label>
 
-                                            <input id="sport5" type="checkbox" />
-                                            <label htmlFor="sport5">Sport</label>
+                                            <input id="Podróże" type="checkbox" />
+                                            <label htmlFor="Podróże" onClick={()=>{this.interestCheck('Podróże')}}>Podróże</label>
 
-                                            <input id="sport6" type="checkbox" />
-                                            <label htmlFor="sport6">Sport</label>
+                                            <input id="Gotowanie" type="checkbox" />
+                                            <label htmlFor="Gotowanie" onClick={()=>{this.interestCheck('Gotowanie')}}>Gotowanie</label>
 
-                                            <input id="sport7" type="checkbox" />
-                                            <label htmlFor="sport7">Sport</label>
+                                            <input id="Zdrowie" type="checkbox" />
+                                            <label htmlFor="Zdrowie" onClick={()=>{this.interestCheck('Zdrowie')}}>Zdrowie</label>
 
-                                            <input id="sport8" type="checkbox" />
-                                            <label htmlFor="sport8">Sport</label>
+                                            <input id="Sport" type="checkbox" />
+                                            <label htmlFor="Sport" onClick={()=>{this.interestCheck('Sport')}}>Sport</label>
+
+                                            <input id="Moda" type="checkbox" />
+                                            <label htmlFor="Moda" onClick={()=>{this.interestCheck('Moda')}}>Moda</label>
                                         </div>
                                     </div>
                                     
@@ -435,7 +495,7 @@ class AfterRegister extends Component {
                                     </p>
                                 </div>
 
-                                <button className="after-register-btn" id="5">
+                                <button className="after-register-btn" id="5" onClick={this.submitAfterData}>
                                     Ok
                                 </button>
 
