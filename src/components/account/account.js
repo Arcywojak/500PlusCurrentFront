@@ -15,6 +15,7 @@ import Offer from './offers/offer';
 import OfferDetails from './offers/offerDetails';
 import UserSettings from './userSettings/userSettings';
 import DeleteKid from './kids/deleteKid';
+import {Redirect} from 'react-router-dom';
 import ActivityLogout from './userSettings/userSettingsChildren/securityChildren/activityLogout';
 import {
         toggleSettings, 
@@ -40,6 +41,38 @@ class Account extends Component {
     })*/
 
     componentDidMount() {
+
+
+        /* jeżeli ktoś nie jest zalogowany to wywali go z tej karty */
+        if(sessionStorage.user_name){
+            this.setState({redirect:false})
+
+
+            /* fetchowanie danych rodziny zalogowanego */
+            fetch(`http://vps817819.ovh.net:50/children/?parent_id=${sessionStorage.getItem('user_id')}&parent_email=${sessionStorage.getItem('user_email')}`, {
+                method : "GET"
+            })
+            .then(response =>{
+                return response.json()
+            })
+            .then(data =>{   
+                this.setState({kids_list : data})
+            })
+            
+            fetch(`http://vps817819.ovh.net:50/preferences/?id=${sessionStorage.getItem('user_id')}&email=${sessionStorage.getItem('user_email')}`, {
+                method : "GET"
+            })
+            .then(response =>{
+                return response.json()
+            })
+            .then(data =>{
+                console.log(data)
+            })
+        }
+        else{
+            this.setState({redirect:true})
+        }
+
         window.addEventListener('beforeunload', (e) => {
             e.preventDefault();
 
@@ -69,6 +102,13 @@ class Account extends Component {
             description:'Jan Kochanowski napisał treny po utracie swojej ukochanej córeczki Orszuli . Napisał je ponieważ nie potrafił zrozumieć dlaczego ona odeszła. Przeżywał również okres, w którym coś tam coś tam nie pameitam.',
             img:'a.png'
         } , 
+
+
+        user_name : sessionStorage.user_name,
+        redirect : null,
+        kids_list : [],
+        interest_list : [],
+
 
         DUMMY_DATA : [
             {id:0, name:'HENIO', age:5, gender:'m', shoeSize:41, favColor:'BLACK', height:'545', img:'a.png'},
@@ -117,7 +157,7 @@ render(){
     
 
      /**************** RENDER LIST OF KIDS AND OFFERS **************/
-     const listOfKids = this.state.DUMMY_DATA.map(element=>{
+     const listOfKids = this.state.kids_list.map(element=>{
         return(
             <Kid kid={element} key={element.id} 
             changeActualKid={this.changeActualKid} toggleKidDetails={toggleKidDetails}
@@ -139,6 +179,10 @@ render(){
         <>
 
             {/* FLYING THINGS */}
+
+            {/* redirect ze strony */}
+            {(this.state.redirect) ? <Redirect to="/"/> : null}
+
 
             <div className="flying-block user-settings-wrapper anim-fade-in none">
                 <UserSettings />
@@ -174,13 +218,13 @@ render(){
                     </div>
                     <div className="user-textarea">
                         <h2 className="user-name">
-                            Nazwa użytkownika
+                            {this.state.user_name}
                         </h2>
                         <h5 className="user-likes-h5">
-                            Polubione oferty: <span>51</span>
+                            Polubione oferty: <span>Not coded in API</span>
                         </h5>
                         <h5 className="user-likes-h5">
-                            Data założenia: <span>15 stycznia 2030 rok</span>
+                            Data założenia: <span>Not coded in API</span>
                         </h5>     
                     </div>
                 </div>

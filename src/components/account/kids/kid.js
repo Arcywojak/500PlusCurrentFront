@@ -18,7 +18,7 @@ const Kid =(props)=>{
             </div>
 
             <div className="user-member-img">
-                <img src={require(`../../../images/${props.kid.img}`)} alt="zdjęcie_dziecka"/>
+                <img src={require(`../../../images/a.png`)} alt="zdjęcie_dziecka"/>
             </div>
 
             <div className="user-member-text">
@@ -41,7 +41,7 @@ const Kid =(props)=>{
                 </div>
 
                 <div className="user-member-img">
-                    <img src={require(`../../../images/${props.kid.img}`)} alt="zdjęcie_dziecka"/>
+                    <img src={require(`../../../images/a.png`)} alt="zdjęcie_dziecka"/>
                 </div>
 
                 <div className="child-F-grid">

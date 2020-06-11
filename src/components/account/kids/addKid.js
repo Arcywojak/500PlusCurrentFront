@@ -88,6 +88,28 @@ class AddKid extends Component {
         })
     }
 
+    submitKid = (e) =>{
+        e.preventDefault()
+
+        let {name, age} = this.state
+        
+        fetch(`http://vps817819.ovh.net:50/children/?parent_id=${sessionStorage.getItem('user_id')}&name=${name}&age=${age}&interests=Zabawa&parent_email=${sessionStorage.getItem('user_email')}`, {
+            method : "POST"
+        })
+        .then(response =>{
+            return response.json()
+        })
+        .then(data =>{
+
+            if(data == 'Child created properly'){
+                removeAll()
+            }
+            else{
+                console.log(data)
+            }
+        })
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
 
@@ -237,7 +259,7 @@ render(){
                     </div>
                 </div>
 
-                <button className="btn purple-btn">
+                <button className="btn purple-btn" onClick={this.submitKid}>
                    Zapisz
                 </button>
             </form>   

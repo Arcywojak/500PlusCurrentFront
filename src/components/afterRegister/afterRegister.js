@@ -141,8 +141,8 @@ class AfterRegister extends Component {
         })
         console.log(API_string)
 
-        let {user_id} = sessionStorage
-        fetch(`http://vps817819.ovh.net:50/preferences/?id=${user_id}&interests=${API_string}`, {
+        let {user_id, user_email} = sessionStorage
+        fetch(`http://vps817819.ovh.net:50/preferences/?id=${user_id}&email=${user_email}&interests=${API_string}`, {
             method : "POST"
         })
         .then(response=>{
