@@ -156,6 +156,33 @@ class KidDetails extends Component {
         }
     }
 
+    submitEditing = () =>{
+
+        let {name, age} = this.state
+        let {id} = this.props.kid
+
+
+        
+
+        fetch(`http://vps817819.ovh.net:50/children/?child_id=${id}&name=${name}&age=${age}&interests=Zabawa&parent_email=${sessionStorage.getItem('user_email')}`, {
+            method : "PUT"
+        })
+        .then(response =>{
+            return response.json()
+        })
+        .then(data=>{
+            
+            if(data == "Child updated properly"){
+                removeAll()
+            }
+
+            /* BŁAD ZAPYTANIA */
+            else{
+                console.log(data)
+            }
+        })
+    }
+
 
 render(){
 
@@ -271,7 +298,7 @@ render(){
                     </div>
                 </div>
 
-                <button className="btn purple-btn">
+                <button className="btn purple-btn" onClick={this.submitEditing}>
                    Zapisz
                 </button>
             </form>   

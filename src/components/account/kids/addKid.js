@@ -102,7 +102,7 @@ class AddKid extends Component {
         .then(data =>{
 
             if(data == 'Child created properly'){
-                removeAll()
+                
             }
             else{
                 console.log(data)
