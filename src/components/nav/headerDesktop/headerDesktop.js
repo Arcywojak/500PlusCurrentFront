@@ -60,9 +60,9 @@ render() {
 
   const deskopLoggedIn =(
     <nav className="header-right in">
-                <a className="basic-nav" href="#contact">HOME</a>
-                <a className="basic-nav" href="#home">O NAS</a>
-                <a className="basic-nav" href="#contact">KONTAKT</a>
+                <NavLink className="basic-nav" exact to="/" >HOME</NavLink>
+                <NavLink className="basic-nav" exact to="o-nas" >O NAS</NavLink>
+                <NavLink className="basic-nav" exact to="kontakt">KONTAKT</NavLink>
                 <div onMouseOut={this.HandleClickOpenOpt} onMouseOver={()=>{this.HandleClickOpenOpt('MOUSEOVER')}}
                     className="basic-nav user-options" href="#contact">KONTO
                     <div class="help-with-hover1 none"></div>
