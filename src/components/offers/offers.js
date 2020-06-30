@@ -21,16 +21,17 @@ class Offers extends React.Component{
     state={
         
         typesOfOffers : [
-            {text : "Ubranka i buty", picture : "clothes.svg", picture1 : "clothes-white.svg", API_id : "ubraniaibuty"},
-            {text : "Dom i ogród", picture : "sofa.svg", picture1 : "sofa-white.svg", API_id : "domiogrod"},
-            {text : "Zabawki i gry", picture : "Puzzle.svg", picture1 : "Puzzle-white.svg", API_id : "zabawkigry"},
-            {text : "Kosmetyki do włosów", picture : "kosmetyki.svg", picture1 : "kosmetyki-white.svg", API_id : "wlosy"},
-            {text : "Kobieta w ciąży", picture : "dlakobietwciazy.svg",picture1 : "dlakobietwciazy-white.svg",  API_id : "kobietawciazy"},
-            {text : "Zdrowie i pielęgnacja" ,picture : "Apple.svg", picture1 : "Apple-white.svg", API_id : "zdrowie"},
-            {text : "Akcesoria dla dzieci" ,picture : "akcesoriadladzieci.svg", picture1 : "akcesoriadladzieci-white.svg", API_id : "akcesoriadladzieci"},
-            {text : "Czystość w domu" ,picture : "czystoscwdomu.svg", picture1 : "czystoscwdomu-white.svg", API_id : "czystoscwdomu"},
-            {text : "Wyposażenie domu" ,picture : "sofa.svg", picture1 : "sofa-white.svg", API_id : "wyposazeniedomu"}
+            {id:1, text : "Ubranka i buty", picture : "clothes.svg", picture1 : "clothes-white.svg", API_id : "ubraniaibuty"},
+            {id:2, text : "Dom i ogród", picture : "sofa.svg", picture1 : "sofa-white.svg", API_id : "domiogrod"},
+            {id:3, text : "Zabawki i gry", picture : "Puzzle.svg", picture1 : "Puzzle-white.svg", API_id : "zabawkigry"},
+            {id:4, text : "Kosmetyki do włosów", picture : "kosmetyki.svg", picture1 : "kosmetyki-white.svg", API_id : "wlosy"},
+            {id:5, text : "Kobieta w ciąży", picture : "dlakobietwciazy.svg",picture1 : "dlakobietwciazy-white.svg",  API_id : "kobietawciazy"},
+            {id:6, text : "Zdrowie i pielęgnacja" ,picture : "Apple.svg", picture1 : "Apple-white.svg", API_id : "zdrowie"},
+            {id:7, text : "Akcesoria dla dzieci" ,picture : "akcesoriadladzieci.svg", picture1 : "akcesoriadladzieci-white.svg", API_id : "akcesoriadladzieci"},
+            {id:8, text : "Czystość w domu" ,picture : "czystoscwdomu.svg", picture1 : "czystoscwdomu-white.svg", API_id : "czystoscwdomu"},
+            {id:9, text : "Wyposażenie domu" ,picture : "sofa.svg", picture1 : "sofa-white.svg", API_id : "wyposazeniedomu"}
         ],
+
         dummy_listOfOffers : [
             {id:0, itemName:'Adam 1', price:123, givenPrice:699, hots:50, imgUrl:"watch.jpeg", category:'Ubranka'},
                 {id:1, itemName:'Rowerek 2', price:321, givenPrice:'', hots:0, imgUrl:"twarz.png", category:'Ubranka'},
@@ -61,6 +62,7 @@ class Offers extends React.Component{
                 {id:26, itemName:'Rowerek 27', price:444, givenPrice:699, hots:1337, imgUrl:"item.png", category:'Shrek'},
                 {id:27, itemName:'Rowerek 28', price:9876, givenPrice:6469, hots:2137, imgUrl:"item.png", category:'Shrek 2'}
         ],
+
 
         typeOfOffer : null,  /* zmienne potrzebne przy wyborze ofert */
         sort1 : "itemName",
@@ -116,7 +118,7 @@ class Offers extends React.Component{
                 sort2 : e.target.value
             })
         }
-        console.log(this.state.sort1 + " " + this.state.sort2)
+        //console.log(this.state.sort1 + " " + this.state.sort2)
         
         let Sorting = async(e) =>{
             if(this.state.sort1 == "itemName"){
@@ -134,7 +136,7 @@ class Offers extends React.Component{
                await  this.setState({
                     sortedArray : helpArray
                 })
-                console.log(this.state.sortedArray)
+                //console.log(this.state.sortedArray)
                 
             }
             else if(this.state.sort1 == "hots"){
@@ -212,7 +214,7 @@ class Offers extends React.Component{
             }
         })
         for(let i = 0; i< this.state.typesOfOffers.length; i++){
-            console.log(this.state.typesOfOffers[i].text+"img")
+           // console.log(this.state.typesOfOffers[i].text+"img")
             document.getElementById(this.state.typesOfOffers[i].text+"img").src = require(`../../images/categoryIcons/${this.state.typesOfOffers[i].picture}`)
         }
         document.getElementById(id+"img").src =  require(`../../images/categoryIcons/${findedObj.picture1}`)
@@ -222,7 +224,7 @@ class Offers extends React.Component{
     render(){
 
     /************************* REDUX *************************/
-        console.log(this.props.offers)
+      // console.log(this.props.offers)
     /************************* REDUX *************************/
 
         const h1Text = (this.state.typeOfOffer === "") ?  /*tekst nagłówkowy */
@@ -234,19 +236,19 @@ class Offers extends React.Component{
 
         const divCategories = this.state.typesOfOffers.map((category)=>{ /*lista divów z kategorią*/
             return(
-                <CategoryCard text={category.text} picture={category.picture} getOffers={this.props.getOffers} API_id={category.API_id} onChangeFunc={this.testing}/>
+                <CategoryCard key={category.id} text={category.text} picture={category.picture} getOffers={this.props.getOffers} API_id={category.API_id} onChangeFunc={this.testing}/>
             )
         })
 
      
 
-        console.log(this.props.offers.length)
+     //   console.log(this.props.offers.length)
 
         const listOfOffers = this.props.offers.length > 0 ? (
 
             this.props.offers.map(offer => {
                 return(
-                    <OfferCard item = {offer} />
+                    <OfferCard item = {offer} key={offer._id} />
                 )
             })
 
@@ -271,8 +273,8 @@ class Offers extends React.Component{
                                 <h2>Oto oferty, które dla Ciebie przygotowaliśmy</h2>
                             </div>
                             <div className="user-family-title-box-img">
-                                <button className="btn1"><i class="fas fa-user-cog icon"></i>ZMIEŃ KRYTERIA</button><br/>
-                                <button className="btn1"><i class="fas fa-user-cog icon"></i>JAK TO DZIAŁA?</button>
+                                <button className="btn1"><i className="fas fa-user-cog icon"></i>ZMIEŃ KRYTERIA</button><br/>
+                                <button className="btn1"><i className="fas fa-user-cog icon"></i>JAK TO DZIAŁA?</button>
                             </div>
                         </div>
 

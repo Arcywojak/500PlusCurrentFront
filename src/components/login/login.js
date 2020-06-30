@@ -1,9 +1,16 @@
 import React, {Component} from 'react';
 import {NavLink, Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {login} from '../../actions/authActions';
 import './login.min.css';
 import fb from '../../images/fb.svg'
 
-class Register extends Component {
+class Login extends Component {
+
+    static propTypes = {
+        login: PropTypes.func.isRequired
+    }
 
     state = {
         email:'',
@@ -12,8 +19,31 @@ class Register extends Component {
         redirect : null
     }
 
+    componentDidUpdate(prevProps){
+
+        const {error} = this.props;
+
+        if(error !== prevProps.error){
+
+            this.setState({
+                error:'Logowanie nie powiodło się'
+            })
+    
+            setTimeout(() => {
+                if(this.state.error){
+                    this.setState({
+                        error:''
+                    })
+
+                }
+            },3000)
+
+        }
+        
+    }
+
     componentDidMount(){
-        if(sessionStorage.user_name != undefined){   
+        if(sessionStorage.user_name !== undefined){   
             this.setState({redirect : true})
         }
         else{
@@ -35,7 +65,9 @@ class Register extends Component {
             password: this.state.password
         }
 
-        fetch(`http://vps817819.ovh.net:50/users/?email=${user.email}&password=${user.password}`, {
+        this.props.login(user);
+
+       /* fetch(`http://vps817819.ovh.net:50/users/?email=${user.email}&password=${user.password}`, {
             method : 'GET'
         })
         .then(response =>{
@@ -43,9 +75,8 @@ class Register extends Component {
         })
         .then(data=>{
 
-            /* Logowanie udało się */
+            // Logowanie udało się 
             if(typeof(data) == "object"){
-                console.log(data)
                 sessionStorage.setItem('user_name', data.username)
                 sessionStorage.setItem('user_id', data.id)
                 sessionStorage.setItem('user_email', data.email)
@@ -66,7 +97,7 @@ class Register extends Component {
                     }
                 },3000)
             }
-        })
+        })*/
     }
 
    
@@ -86,7 +117,9 @@ class Register extends Component {
                 {/* jeżeli jesteś zalogowany to karta logowania jest zablokowana, 
                 jest to dodatkowe zabezpieczenie jakby ktoś i tak spróbował wpisac url 
                 tej strony , bo i tak jeżeli ktoś jest zalogowany to nie widzi tego w menu*/}
-                {(this.state.redirect) ? <Redirect to="/"/> : null}
+
+                {(this.props.isAuthenticated) ? <Redirect to="/"/> : null}
+
                 {errorMessage}
 
                 <form className="register-form login" onSubmit={this.handleSubmit}>
@@ -140,4 +173,12 @@ class Register extends Component {
     }
 }
 
-export default Register
+const mapStateToProps = state => {
+ 
+    return {
+        isAuthenticated:state.auth.isAuthenticated,
+        error: state.error.msg
+    }
+}
+
+export default connect(mapStateToProps, {login})(Login);

@@ -8,8 +8,8 @@ import './offers.css'
 
 const OfferCard = ({item}) =>{
     return(
-        <div class="outside-item" key={item._id}>
-            <div class="single-item" >
+        <div className="outside-item" key={item._id}>
+            <div className="single-item" >
                 <div className="item-image-area">
                     <div className="item-flying-images">
                         <div className="item-flying-image-child">
@@ -29,10 +29,10 @@ const OfferCard = ({item}) =>{
                 
 
                 <h2>{item.description}</h2>
-                <div class="normal-text blue-text"> {item.price}</div>
+                <div className="normal-text blue-text"> {item.price}</div>
 
                         <Link to={"/oferty/"+item._id}>
-                            <button class="btn">Przejdź do oferty</button>
+                            <button className="btn">Przejdź do oferty</button>
                         </Link>
             </div>
         </div>

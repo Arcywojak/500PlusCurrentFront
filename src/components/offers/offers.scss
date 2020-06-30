@@ -29,6 +29,8 @@
     display: inline-block;
     margin-right: 10px;
   }
+
+
   
   .big-container1 select {
     border-radius: 10px;
@@ -293,6 +295,13 @@
   .single-type-label{
       width:150px;
       margin: 0 10px;
+
+      h3{
+        margin: 0;
+      }
+  }
+  .categoryImg{
+    height: 60%;
   }
   
   @media (min-width: 1001px) {

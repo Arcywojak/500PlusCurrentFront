@@ -3,7 +3,7 @@
 @tokenConfig - Sprawdza czy jest token, jeśli jest, dodaje go do headera
 @loadUser - załadowanie użytkownika (jeśli token jest poprawny)
 @register - rejestrowanie użytkownika
-@login - wylogowanie użytkownika
+@login - logowanie użytkownika
 @logout - wylogowanie użytkownika (usunięcie tokena z localStorage)
 
 ////////////////   TO_DO:    /////////////////
@@ -101,13 +101,30 @@ export const login = ({email, password}) => dispatch => {
     const body = JSON.stringify({email, password});
 
     axios
-    .post('/api/auth', body, config)
-    .then(res => dispatch({
-        type:LOGIN_SUCCESS,
-        payload: res.data
-    }))
-    .catch(err => {dispatch(
-        returnErrors(err.response.data, err.response.status, LOGIN_FAIL)
+    .get(`http://vps817819.ovh.net:50/users/?email=${email}&password=${password}`)
+    .then(res => {
+
+        /*Login success */
+
+        if(typeof(res.data) == "object"){
+       
+            sessionStorage.setItem('user_name', res.data.username)
+            sessionStorage.setItem('user_id', res.data.id)
+            sessionStorage.setItem('user_email', res.data.email)
+
+            dispatch({
+                type:LOGIN_SUCCESS,
+                payload: res.data
+                })
+        } else {
+            return "logowanie nie powiodlo sie"
+        }
+
+    })
+    .catch(err => {
+
+        dispatch(
+        returnErrors("Logowanie nie powiodło się!")
         );
         dispatch({
             type:LOGIN_FAIL

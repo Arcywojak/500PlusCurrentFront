@@ -109,7 +109,7 @@ class OfferDetails extends Component{
 
             <Link to="/oferty">
                 <button className="back-to-offer-list">
-                <i class="fas fa-chevron-left icon"></i>  POWRÓT
+                <i className="fas fa-chevron-left icon"></i>  POWRÓT
                 </button>
             </Link>
             
@@ -148,10 +148,10 @@ class OfferDetails extends Component{
 
                         <div className="item-details-inner-two-buttons">
                             <button onClick={this.addProduct} className="btn purple">
-                                <i class="fas fa-shopping-cart icon"></i>  DO KOSZYKA
+                                <i className="fas fa-shopping-cart icon"></i>  DO KOSZYKA
                             </button>
                             <button className="btn gray">
-                                <i class="fas fa-play icon"></i>   KUP TERAZ
+                                <i className="fas fa-play icon"></i>   KUP TERAZ
                             </button>
                         </div>
 

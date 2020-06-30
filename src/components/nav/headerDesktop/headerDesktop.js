@@ -142,7 +142,7 @@ render() {
   )
   
   //SPRAWDZENIE CZY ZALOGOWANY
-  const isLoggedDeskop = sessionStorage.user_name != undefined ? (deskopLoggedIn) : (deskopLoggedOut)
+  const isLoggedDeskop = sessionStorage.user_name !== undefined ? (deskopLoggedIn) : (deskopLoggedOut)
   /////////////////////////////  
 
     return ( 

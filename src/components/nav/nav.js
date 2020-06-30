@@ -1,16 +1,39 @@
 import React, {Component} from 'react';
 import HeaderDesktop from './headerDesktop/headerDesktop';
 import HeaderMobile from './headerMobile/headerMobile';
+import {connect} from 'react-redux'
+import PropTypes from 'prop-types';
+import {login} from '../../actions/authActions';
 
-class nav extends Component {
+class Nav extends Component {
 
     state = {
         mobileHeader:false,
         loggedIn:false,
         user:null
       }
+
+      static propTypes = {
+        login: PropTypes.func.isRequired
+        }
     
       componentDidMount(){
+
+      /////// Load User ///////
+
+     //if(!this.props.isAutheticated){
+
+      //  const email = sessionStorage.getItem("user_email");
+      //  const name = sessionStorage.getItem("user_name");
+
+      // 0.BACKEND HAVE TO PROVIDE TOKEN
+      // 1.GET TOKEN FROM SESSION STORAGE
+      // 2.TRY LOGGINING IN WITH TOKEN
+
+      ///  this.props.loadUser( TOKEN );
+
+      // }
+
         window.addEventListener('resize', () => {
             if(window.innerWidth < 850 || window.innerHeight < 500){this.setState({mobileHeader:true})}
             else{this.setState({mobileHeader:false})}
@@ -32,6 +55,7 @@ class nav extends Component {
                 landingLogo:false
             })
         }
+
       }
 
       componentDidUpdate(prev){
@@ -67,4 +91,11 @@ class nav extends Component {
     
 }
 
-export default nav
+const mapStateToProps = state => {
+
+    return {
+        isAuthenticated: state.auth.isAuthenticated
+    }
+}
+
+export default connect(mapStateToProps, {login})(Nav)

@@ -347,6 +347,14 @@ a {
   margin: 0 10px;
 }
 
+.single-type-label h3 {
+  margin: 0;
+}
+
+.categoryImg {
+  height: 60%;
+}
+
 @media (min-width: 1001px) {
   .shown-offer-grid {
     -ms-grid-columns: 30% 70%;
