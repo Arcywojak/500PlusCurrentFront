@@ -2,14 +2,39 @@ import React, {Component} from 'react';
 import './register.min.css';
 import fb from '../../images/fb.svg'
 import {Link, Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {register} from '../../actions/authActions';
 
 class Register extends Component {
 
-
+    static propTypes = {
+        register: PropTypes.func.isRequired
+    }
 
     //pomoc w testach
     componentDidMount(){
         window.helpDel = this.helpDel
+    }
+
+    componentDidUpdate(prevProps){
+
+        const {error} = this.props;
+
+      //  console.log(prevProps.state)
+
+        if(this.state.errorHelper || ( error && this.state.error === '') ){
+
+            this.setState({
+                error: this.state.errorHelper
+            })
+
+            this.setState({
+                errorHelper: ''
+            })
+
+        }
+        
     }
 
     state = {
@@ -18,6 +43,7 @@ class Register extends Component {
         password:'',
         repPassword:'',
         error:'',
+        errorHelper:'',
         accepted_policy : [false, false],
         redirect : false
     }
@@ -52,6 +78,10 @@ class Register extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+
+        this.setState({
+            error: ''
+        })
         
         let reg_mail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         let result_mail = this.state.email.match(reg_mail)
@@ -61,60 +91,38 @@ class Register extends Component {
         // proste sprawdzenie poprawności formatu maila
         if(result_mail == null){
             this.setState({
-                error:'Podano zły format emaila',
+                errorHelper:'Podano zły format emaila',
                 name: ''
             })
-
-            setTimeout(() => {
-                if(this.state.error){
-                    this.setState({
-                        error:''
-                    })
-                }
-            },3000)
         }
 
         //proste sprawdzenie poprawności nazwy użytkownika (symboliczna ochrona przed XSS)
         else if(this.state.name.match(reg_others) != null || this.state.password.match(reg_others) != null){
             this.setState({
-                error:'Podano niedozwolone znaki <>`~-"\'',
+                errorHelper:'Podano niedozwolone znaki <>`~-"\'',
             })
-
-            setTimeout(() => {
-                if(this.state.error){
-                    this.setState({
-                        error:''
-                    })
-                }
-            },3000)
         }
 
         //sprawdzenie czy dwa hasła są takie same
         else if(this.state.password != this.state.repPassword){
             this.setState({
-                error:'Podane hasła nie są identyczne',
+                errorHelper:'Podane hasła nie są identyczne',
             })
-
-            setTimeout(() => {
-                if(this.state.error){
-                    this.setState({
-                        error:''
-                    })
-                }
-            },3000)
         }
         else{
-            const user = {
-                name:this.state.name,
-                email: this.state.email,
-                password: this.state.password,
-            }
     
             //sprawdzenie czy oba pola 'zgadzam się na warunki umowy blabla' są odznaczone
             if(this.state.accepted_policy[0] && this.state.accepted_policy[1]){
+
+                const user = {
+                    name:this.state.name,
+                    email: this.state.email,
+                    password: this.state.password,
+                }
+
+                this.props.register(user)
     
-                console.log(user)
-                fetch(`http://vps817819.ovh.net:50/users/?email=${user.email}&password=${user.password}&username=${user.name}`, {
+            /*    fetch(`http://vps817819.ovh.net:50/users/?email=${user.email}&password=${user.password}&username=${user.name}`, {
                     method: 'POST'
                 })
                 .then(response=>{
@@ -146,41 +154,14 @@ class Register extends Component {
                             }
                         },3000)
                     }
-                })
+                })*/
             }
             else{
                 this.setState({
-                    error:'Proszę zaznaczyć politykę prywatności'
+                    errorHelper:'Proszę zaznaczyć politykę prywatności'
                 })
-    
-                setTimeout(() => {
-                    if(this.state.error){
-                        this.setState({
-                            error:''
-                        })
-                    }
-                },3000)
             }
-        }
-        
-
-        
-
-        /*if(!this.state.error){
-            this.setState({
-                error:'Koronawirus zabije nas wszystkiech'
-            })
-
-            setTimeout(() => {
-                if(this.state.error){
-                    this.setState({
-                        error:''
-                    })
-                }
-            },3000)
-        }*/
-            
-        
+        }                  
     }
 
 
@@ -198,8 +179,16 @@ class Register extends Component {
 
                 {errorMessage}
 
+
+            {/**STARY SPOSOB NA REDIRECT */}
                 {/* To jest przekierowanie do strony po-rejestracji, jeżeli rejestracja powiodła się */}
                 {(this.state.redirect) ? <Redirect to="/po-rejestracji"/> : null}
+            {/***************** */}
+
+            {/**NOWY SPOSOB NA REDIRECT */}
+            {(this.props.isAuthenticated) ? <Redirect to="/po-rejestracji"/> : null}
+            {/***************** */}
+        
 
                 <form className="register-form" onSubmit={this.handleSubmit}>
                     <div className="register-form-1st">
@@ -231,14 +220,42 @@ class Register extends Component {
                         </div>
 
                         {/* dodaj required do inputów, ja przy testach musiałem to usunąć */}
-                        <input className="input-1" type="text" placeholder="Podaj swój nick/pseudonim..." name="name"
-                         onChange={(e) => this.handleChange(e)}/>
-                        <input className="input-1" type="mail" placeholder="Podaj swój email..." name="email"
-                         onChange={(e) => this.handleChange(e)}/>
-                        <input className="input-1" type="password" placeholder="Podaj nowe hasło..." name="password"
-                         onChange={(e) => this.handleChange(e)}/>
-                        <input className="input-1" type="password" placeholder="Powtórz hasło..." name="repPassword"
-                         onChange={(e) => this.handleChange(e)}/>
+                        <input 
+                            className="input-1" 
+                            type="text" 
+                            placeholder="Podaj swój nick/pseudonim..." 
+                            name="name"
+                            onChange={(e) => this.handleChange(e)}
+                            required
+                        />
+
+                        <input 
+                            className="input-1" 
+                            type="mail" 
+                            placeholder="Podaj swój email..." 
+                            name="email"
+                            onChange={(e) => this.handleChange(e)}
+                            required
+                        />
+
+                        <input 
+                            className="input-1" 
+                            type="password" 
+                            placeholder="Podaj nowe hasło..." 
+                            name="password"
+                            onChange={(e) => this.handleChange(e)}
+                            required
+                        />
+
+                        <input 
+                            className="input-1" 
+                            type="password" 
+                            placeholder="Powtórz hasło..." 
+                            name="repPassword"
+                            onChange={(e) => this.handleChange(e)}
+                            required
+                        />
+
                         <div className="captcha-fb-block">
                             <div className="captcha">
                                 -CAPTCHA-
@@ -251,7 +268,12 @@ class Register extends Component {
                         </div>
                         <div className="checkbox-and-text">
                             <div className="register-checkbox">
-                                <input className="register-checkbox" type="checkbox" name="regulations" onClick={()=>{this.handlePolicy(0)}}/>
+                                <input 
+                                    className="register-checkbox" 
+                                    type="checkbox" 
+                                    name="regulations" 
+                                    onClick={()=>{this.handlePolicy(0)}}
+                                />
                             </div>
                             <div className="text">
                                 <p>Akceptuje warunki umowy bla bla bla bla bal</p>
@@ -259,7 +281,12 @@ class Register extends Component {
                         </div>
                         <div className="checkbox-and-text">
                             <div className="register-checkbox">
-                                <input className="register-checkbox" type="checkbox" name="receive-not" onClick={()=>{this.handlePolicy(1)}}/>
+                                <input 
+                                    className="register-checkbox" 
+                                    type="checkbox" 
+                                    name="receive-not" 
+                                    onClick={()=>{this.handlePolicy(1)}}
+                                />
                             </div>
                             <div className="text">
                                 <p>Akceptuje warunki umowy bla bla bla bla bal asd sad asd asd as asd asd as</p>
@@ -274,4 +301,11 @@ class Register extends Component {
     }
 }
 
-export default Register
+const mapStateToProps = state => {
+    return{
+        isAuthenticated: state.auth.isAuthenticated,
+        error: state.error.msg
+    }
+}
+
+export default connect(mapStateToProps, {register})(Register);

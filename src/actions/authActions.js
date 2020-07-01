@@ -21,7 +21,8 @@ import {
     LOGIN_FAIL,
     LOGOUT_SUCCESS,
     REGISTER_SUCCESS,
-    REGISTER_FAIL
+    REGISTER_FAIL,
+    CLEAR_ERRORS
 } from '../actions/types';
 
 // setup config/header and token
@@ -63,25 +64,51 @@ export const loadUser = () => (dispatch, getState) => {
     })
 };
 
-export const register = ({name, email, password, img}) => dispatch => {
-    const config = {
+export const register = ({name, email, password}) => dispatch => {
+
+   /* const config = {
         headers:{
             "Content-type":"application/json"
         }
-    }
+    }*/
 
     //parse values into string
-    const body = JSON.stringify({name, email, password, img})
+    //const body = JSON.stringify({name, email, password})
 
     axios
-    .post('/api/users', body, config) //ZMIENIC NA ODPOWIEDNI ROUTE
-    .then(res => dispatch({
-        type:REGISTER_SUCCESS,
-        payload:res.data
+    .post(`http://vps817819.ovh.net:50/users/?email=${email}&password=${password}&username=${name}`)
+    .then(res => {
+
+        if(typeof(res.data) == "object"){
+
+            sessionStorage.setItem('user_name', res.data.username)
+            sessionStorage.setItem('user_id', res.data.id)
+            sessionStorage.setItem('user_email', res.data.email)
+
+            dispatch({
+            type:CLEAR_ERRORS,
+            payload:res.data
+            })
+
+            dispatch({
+            type:REGISTER_SUCCESS,
+            payload:res.data
+            })
+
+        } else {
+
+            dispatch(
+            returnErrors("Rejestracja nie powiodło się!")
+            );
+            dispatch({
+                type:REGISTER_FAIL
+            });
+
+        }
+    
     })
-    )
     .catch(err => {dispatch(
-        returnErrors(err.response.data, err.response.status, REGISTER_FAIL)
+        returnErrors("Rejestracja nie powiodła się!")
         );
         dispatch({
             type:REGISTER_FAIL
@@ -92,13 +119,14 @@ export const register = ({name, email, password, img}) => dispatch => {
 //export const editUser = 
 
 export const login = ({email, password}) => dispatch => {
-    const config = {
+
+   /* const config = {
         headers:{
             "Content-type":"application/json"
         }
-    };
+    };*/
 
-    const body = JSON.stringify({email, password});
+    //const body = JSON.stringify({email, password});
 
     axios
     .get(`http://vps817819.ovh.net:50/users/?email=${email}&password=${password}`)
@@ -113,11 +141,24 @@ export const login = ({email, password}) => dispatch => {
             sessionStorage.setItem('user_email', res.data.email)
 
             dispatch({
-                type:LOGIN_SUCCESS,
-                payload: res.data
-                })
+            type:CLEAR_ERRORS,
+            payload:res.data
+            })
+
+            dispatch({
+            type:LOGIN_SUCCESS,
+            payload: res.data
+            })
+
         } else {
-            return "logowanie nie powiodlo sie"
+
+            dispatch(
+            returnErrors("Logowanie nie powiodło się!")
+            );
+            dispatch({
+                type:LOGIN_FAIL
+            });
+
         }
 
     })

@@ -30,15 +30,6 @@ class Login extends Component {
             this.setState({
                 error:'Logowanie nie powiodło się'
             })
-    
-        /*    setTimeout(() => {
-                if(this.state.error){
-                    this.setState({
-                        error:''
-                    })
-
-                }
-            },3000)*/
 
         }
         
