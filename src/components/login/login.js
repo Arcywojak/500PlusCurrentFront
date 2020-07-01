@@ -23,20 +23,22 @@ class Login extends Component {
 
         const {error} = this.props;
 
-        if(error !== prevProps.error){
+        console.log(this.state.error)
+
+        if(error !== prevProps.error || ( error && this.state.error === '') ){
 
             this.setState({
                 error:'Logowanie nie powiodło się'
             })
     
-            setTimeout(() => {
+        /*    setTimeout(() => {
                 if(this.state.error){
                     this.setState({
                         error:''
                     })
 
                 }
-            },3000)
+            },3000)*/
 
         }
         
@@ -59,6 +61,12 @@ class Login extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+
+        console.log("submit")
+
+        this.setState({
+            error:''
+        })
 
         const user = {
             email: this.state.email,
