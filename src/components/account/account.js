@@ -271,7 +271,8 @@ render(){
 const mapStateToProps = state => {
 
     return {
-        state: state.user
+        isAuthenticated: state.auth.isAuthenticated,
+        user: state.auth.user
     }
 }
 

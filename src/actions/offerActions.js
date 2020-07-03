@@ -35,7 +35,7 @@ export const getOffers = (id = null,category = null) => dispatch => {
                 payload:res.data
             })
         })
-        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)))
+        .catch(err => dispatch(returnErrors("Coś poszło nie tak podczas ładowanie ofert")))
     }
    
     else if( !category ){     // JEŚLI NIE DAMY PARAMETRU CATEGORY, POBIERAMY WSZYSTKIE OFERTY
