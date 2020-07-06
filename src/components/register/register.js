@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './register.min.css';
+import './register.css';
 import fb from '../../images/fb.svg'
 import {Link, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
@@ -18,6 +18,8 @@ class Register extends Component {
     }
 
     componentDidUpdate(prevProps){
+
+        console.log("UPDATE")
 
         const {error} = this.props;
 
@@ -231,7 +233,7 @@ class Register extends Component {
 
                         <input 
                             className="input-1" 
-                            type="mail" 
+                            type="email" 
                             placeholder="Podaj swój email..." 
                             name="email"
                             onChange={(e) => this.handleChange(e)}

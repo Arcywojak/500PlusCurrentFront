@@ -3,7 +3,7 @@ import {NavLink, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {login} from '../../actions/authActions';
-import './login.min.css';
+import './login.css';
 import fb from '../../images/fb.svg'
 
 class Login extends Component {
@@ -149,7 +149,7 @@ class Login extends Component {
                         <div className="title-with-underline">
                             Zaloguj się!
                         </div>
-                        <input className="input-1" type="mail" placeholder="Podaj swój email..." name="email" required
+                        <input className="input-1" type="email" placeholder="Podaj swój email..." name="email" required
                         onChange={(e) => {this.handleChange(e)}}/>
                         <input className="input-1" type="password" placeholder="Podaj hasło..." name="password" required
                         onChange={(e) => {this.handleChange(e)}}/>

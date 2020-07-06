@@ -10,35 +10,42 @@ import {
 } from '../actions/types'
 
 const initialState = {
-    children: null,
-    preferences: null
+    children: [],
+    preferences: []
 }
 
 export default function(state = initialState, action) {
     switch(action.type) {
         case GET_CHILDREN:
             return {
-                ...state
+                ...state,
+                children: action.payload
             };
         case GET_PREFERENCES:
             return {
-                ...state
+                ...state,
+                preferences: action.payload
             }
         case DELETE_CHILD:
             return {
-                ...state
+                ...state,
+                children: state.children.filter(child => child.id !== action.payload) 
             }
         case DELETE_PREFERENCE:
             return {
-                ...state
+                ...state,
+                preferences: state.preferences.filter(preference => preference.id !== action.payload)
+
             }
         case ADD_CHILD:
             return {
-                ...state
+                ...state,
+                children: [...state.children, action.payload]
             }
         case ADD_PREFERENCE:
             return {
-                ...state
+                ...state,
+                preferences: [...state.preferences, action.payload]
             }
         default: {
             return state;

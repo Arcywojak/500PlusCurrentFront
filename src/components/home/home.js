@@ -113,7 +113,7 @@ class Home extends Component {
                             this.toggleBlurAndOverlay();
                         }
     
-        render() {   
+        render() { 
     
             const newsLetter = this.state.isNewsLetterActive ? (
     
