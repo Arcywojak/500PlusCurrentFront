@@ -55,10 +55,10 @@ export const loadUser = () => (dispatch, getState) => {
     if(email && password){
         axios
         .get(`http://vps817819.ovh.net:50/users/?email=${email}&password=${password}`) 
-        .then(res => dispatch({
+        .then(res => {console.log("SUCCESS", email, password);dispatch({
             type: USER_LOADED,
             payload:res.data
-        }))
+        })})
         .catch(err => {
             dispatch(returnErrors("Nie udało się załadować użytkownika") );
             dispatch({

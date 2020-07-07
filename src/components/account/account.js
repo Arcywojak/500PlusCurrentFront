@@ -32,17 +32,6 @@ import {
 
 class Account extends Component {
 
-    
-    /*
-        !!UWAGA TO JEST ORYGINALNA FUNKCJA WYŚWIETLAJĄCA DIVY DZIECI, NA RAZIE W CELU
-        WYŚWIETLANIA PRZYKŁADOWAYCH DANYCH JEST ONA ZASTĄPIONA KOPIĄ!!
-        
-        const listOfKids = props.kidDetails.map(element=>{
-        return(
-            <Kid kid={element} key={element.id} handleClickEditProfile={props.handleClickEditProfile}/>
-        )
-    })*/
-
     static propTypes = {
         getPreferences: PropTypes.func,
         getChildren: PropTypes.func
@@ -53,41 +42,11 @@ class Account extends Component {
         const user_id = sessionStorage.getItem("user_id");
         const user_email = sessionStorage.getItem("user_email");
 
-
-        this.props.getChildren(user_id, user_email);
-        this.props.getPreferences(user_id, user_email);
-
-
-
-        /* jeżeli ktoś nie jest zalogowany to wywali go z tej karty */
-       // if(sessionStorage.user_name){
-        //    this.setState({redirect:false})
-
-
-            /* fetchowanie danych rodziny zalogowanego */
-       /*     fetch(`http://vps817819.ovh.net:50/children/?parent_id=${sessionStorage.getItem('user_id')}&parent_email=${sessionStorage.getItem('user_email')}`, {
-                method : "GET"
-            })
-            .then(response =>{
-                return response.json()
-            })
-            .then(data =>{   
-                this.setState({kids_list : data})
-            })
-            
-            fetch(`http://vps817819.ovh.net:50/preferences/?id=${sessionStorage.getItem('user_id')}&email=${sessionStorage.getItem('user_email')}`, {
-                method : "GET"
-            })
-            .then(response =>{
-                return response.json()
-            })
-            .then(data =>{
-                this.setState({interest_list : data})
-            })
+        if(user_id && user_email){
+            this.props.getChildren(user_id, user_email);
+            this.props.getPreferences(user_id, user_email);
         }
-        else{
-            this.setState({redirect:true})
-        }*/
+        
 
         window.addEventListener('beforeunload', (e) => {
             e.preventDefault();
@@ -173,7 +132,6 @@ class Account extends Component {
 
 render(){
 
-    
 
      /**************** RENDER LIST OF KIDS AND OFFERS **************/
      const listOfKids = this.state.listOfChildren.map(element=>{
@@ -197,6 +155,10 @@ render(){
         )
     })
 
+    if(!this.props.isAuthenticated && !(this.props.isUserLoading)){
+       return  <Redirect to="/" />
+    }
+    console.log(this.props.isAuthenticated, this.props.isUserLoading)
     
     /*************************************************************/
 
@@ -206,7 +168,6 @@ render(){
             {/* FLYING THINGS */}
 
             {/* redirect ze strony */}
-            {(this.state.redirect) ? <Redirect to="/"/> : null}
 
 
             <div className="flying-block user-settings-wrapper anim-fade-in none">
@@ -291,6 +252,7 @@ const mapStateToProps = state => {
 
     return {
         isAuthenticated: state.auth.isAuthenticated,
+        isUserLoading: state.auth.isLoading,
         user: state.auth.user,
         children: state.userData.children,
         preferences: state.userData.preferences

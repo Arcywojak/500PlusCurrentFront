@@ -65,38 +65,6 @@ class Login extends Component {
         }
 
         this.props.login(user);
-
-       /* fetch(`http://vps817819.ovh.net:50/users/?email=${user.email}&password=${user.password}`, {
-            method : 'GET'
-        })
-        .then(response =>{
-            return response.json()
-        })
-        .then(data=>{
-
-            // Logowanie udało się 
-            if(typeof(data) == "object"){
-                sessionStorage.setItem('user_name', data.username)
-                sessionStorage.setItem('user_id', data.id)
-                sessionStorage.setItem('user_email', data.email)
-                this.setState({
-                    redirect:true
-                })
-            }
-            else{
-                this.setState({
-                    error:'Logowanie nie powiodło się'
-                })
-    
-                setTimeout(() => {
-                    if(this.state.error){
-                        this.setState({
-                            error:''
-                        })
-                    }
-                },3000)
-            }
-        })*/
     }
 
    
@@ -111,11 +79,6 @@ class Login extends Component {
 
         return (
             <main className="container-register">
-
-
-                {/* jeżeli jesteś zalogowany to karta logowania jest zablokowana, 
-                jest to dodatkowe zabezpieczenie jakby ktoś i tak spróbował wpisac url 
-                tej strony , bo i tak jeżeli ktoś jest zalogowany to nie widzi tego w menu*/}
 
                 {(this.props.isAuthenticated) ? <Redirect to="/"/> : null}
 

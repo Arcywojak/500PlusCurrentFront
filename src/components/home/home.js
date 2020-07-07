@@ -233,7 +233,7 @@ class Home extends Component {
                     <p>Jesteś unikalny, korzystając z naszej aplikacji nigdy już nie będziesz "Kolejnym klientem".</p> 
     
                     <button className="btn purple-btn" onClick={handleClick2}>
-                        <i class="fas fa-play-circle icon"></i>Zobacz video
+                        <i className="fas fa-play-circle icon"></i>Zobacz video
                     </button>
                 </div>
                 <div className="grid-elem-2">
@@ -288,7 +288,7 @@ class Home extends Component {
                         <input type="email" required/>
                         <h3>Treść</h3>
                         <textarea required max-length="1000" name="mess" id="mess" cols="30" rows="10"></textarea><br/>
-                        <button className="btn purple-btn"><i class="far fa-paper-plane icon"></i>Wyślij</button>
+                        <button className="btn purple-btn"><i className="far fa-paper-plane icon"></i>Wyślij</button>
                     </form>
                     <h3>Lub</h3>
                     <h3>Napisz na ten adres E-mail!</h3>
