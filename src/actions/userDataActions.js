@@ -19,6 +19,8 @@ import {
     ADD_PREFERENCE
 } from './types'
 
+import {returnErrors} from "./errorActions";
+
 export const getChildren = (id, userEmail) => dispatch => {
 
     const URL = `http://vps817819.ovh.net:50/children/?parent_id=

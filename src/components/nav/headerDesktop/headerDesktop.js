@@ -65,7 +65,7 @@ render() {
                 <NavLink className="basic-nav" exact to="kontakt">KONTAKT</NavLink>
                 <div onMouseOut={this.HandleClickOpenOpt} onMouseOver={()=>{this.HandleClickOpenOpt('MOUSEOVER')}}
                     className="basic-nav user-options" href="#contact">KONTO
-                    <div class="help-with-hover1 none"></div>
+                    <div className="help-with-hover1 none"></div>
                     <div className="notification-list N2 none">
                         <ul>
                             <li className="notification-item-link">
@@ -106,7 +106,7 @@ render() {
                         <div className="open-notification">
                             <img src={notif} alt="bell"/>
                         </div>
-                        <div class="help-with-hover2 none"></div>
+                        <div className="help-with-hover2 none"></div>
                         <div className="notification-list N1 none">
                             <ul>
                                 <li className="notification-item-link bottom-line">

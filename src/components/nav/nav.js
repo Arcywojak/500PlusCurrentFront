@@ -4,6 +4,7 @@ import HeaderMobile from './headerMobile/headerMobile';
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types';
 import {login} from '../../actions/authActions';
+import {loadUser} from '../../actions/authActions';
 
 class Nav extends Component {
 
@@ -14,10 +15,18 @@ class Nav extends Component {
       }
 
       static propTypes = {
-        login: PropTypes.func.isRequired
+        loadUser: PropTypes.func.isRequired
         }
     
       componentDidMount(){
+
+        /* TEST LOADING USER */
+
+    if(!this.props.isAuthenticated){
+        this.props.loadUser();
+    }    
+
+        ///////////////////////
 
       /////// Load User ///////
 
@@ -98,4 +107,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, {login})(Nav)
+export default connect(mapStateToProps, {loadUser})(Nav)

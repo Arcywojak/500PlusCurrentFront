@@ -15,8 +15,8 @@ class headerMobile extends Component {
     render() {
 
         let LOGO = this.props.landingLogo ? 
-        (<img class="header-logo-mobile landing" src={landingLogo}/>) : 
-        (<img class="header-logo-mobile other" src={logo}/>)
+        (<img className="header-logo-mobile landing" src={landingLogo}/>) : 
+        (<img className="header-logo-mobile other" src={logo}/>)
 
     return (
         

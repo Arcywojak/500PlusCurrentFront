@@ -12,16 +12,15 @@ class activityOnAccount extends Component {
     }
 
     componentDidUpdate(){
-        console.log(tab)
+      //  console.log(tab)
     }
 
     render(){
-        console.log(this.state.devices)
 
         const listOfActiveDevices = tab.length > 0 ? (
             tab.map( () => {
                 return (
-                <div className="active-login">
+                <div className="active-login" key={Math.random()}>
                     <div className="active-login-1st">
                         <img src={a} alt="device" />
                     </div>

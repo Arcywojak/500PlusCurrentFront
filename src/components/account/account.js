@@ -1,11 +1,13 @@
 import React, {Component} from 'react'; 
 
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {getChildren} from "../../actions/userDataActions";
+import {getPreferences} from "../../actions/userDataActions";
 
 import Swinia from '../../images/SWINIA.svg';
-import './account.min.css';
-import './offers/offer.min.css';
-import PropTypes from 'prop-types';
+import './account.css';
+import './offers/offer.css';
 import plusCircleAdd from '../../images/plusCircleAdd.svg';
 import cog from '../../images/cog-solid.svg';
 import Kid from './kids/kid';
@@ -41,16 +43,29 @@ class Account extends Component {
         )
     })*/
 
+    static propTypes = {
+        getPreferences: PropTypes.func,
+        getChildren: PropTypes.func
+    }
+
     componentDidMount() {
+
+        const user_id = sessionStorage.getItem("user_id");
+        const user_email = sessionStorage.getItem("user_email");
+
+
+        this.props.getChildren(user_id, user_email);
+        this.props.getPreferences(user_id, user_email);
+
 
 
         /* jeżeli ktoś nie jest zalogowany to wywali go z tej karty */
-        if(sessionStorage.user_name){
-            this.setState({redirect:false})
+       // if(sessionStorage.user_name){
+        //    this.setState({redirect:false})
 
 
             /* fetchowanie danych rodziny zalogowanego */
-            fetch(`http://vps817819.ovh.net:50/children/?parent_id=${sessionStorage.getItem('user_id')}&parent_email=${sessionStorage.getItem('user_email')}`, {
+       /*     fetch(`http://vps817819.ovh.net:50/children/?parent_id=${sessionStorage.getItem('user_id')}&parent_email=${sessionStorage.getItem('user_email')}`, {
                 method : "GET"
             })
             .then(response =>{
@@ -72,7 +87,7 @@ class Account extends Component {
         }
         else{
             this.setState({redirect:true})
-        }
+        }*/
 
         window.addEventListener('beforeunload', (e) => {
             e.preventDefault();
@@ -83,6 +98,13 @@ class Account extends Component {
         })
 
    
+    }
+
+    componentDidUpdate(){
+
+        if(this.props?.children?.length > 0 && this.state.listOfChildren.length === 0){
+            this.state.listOfChildren = this.props.children
+        }
     }
 
     state = {
@@ -107,7 +129,7 @@ class Account extends Component {
 
         user_name : sessionStorage.user_name,
         redirect : null,
-        kids_list : [],
+        listOfChildren : [],
         interest_list : [],
 
 
@@ -133,11 +155,6 @@ class Account extends Component {
         ]
     }
 
-    static propTypes = {
-        deleteUser: PropTypes.func
-    }
-
-
     changeActualKid = (id) => {
         let index = this.state.kids_list.findIndex( (item) => item.id === id)
         this.setState({
@@ -159,7 +176,7 @@ render(){
     
 
      /**************** RENDER LIST OF KIDS AND OFFERS **************/
-     const listOfKids = this.state.kids_list.map(element=>{
+     const listOfKids = this.state.listOfChildren.map(element=>{
         return(
             <Kid kid={element} key={element.id} 
             changeActualKid={this.changeActualKid} toggleKidDetails={toggleKidDetails}
@@ -270,10 +287,14 @@ render(){
 
 const mapStateToProps = state => {
 
+    console.log(state)
+
     return {
         isAuthenticated: state.auth.isAuthenticated,
-        user: state.auth.user
+        user: state.auth.user,
+        children: state.userData.children,
+        preferences: state.userData.preferences
     }
 }
 
-export default connect(mapStateToProps)(Account);
+export default connect(mapStateToProps, {getChildren, getPreferences})(Account);

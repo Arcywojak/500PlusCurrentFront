@@ -60,10 +60,10 @@ render(){
                 </form>
                 <div className="user-offer-details-buttons">
                     <button className="btn purple-btn">
-                        <i class="fas fa-shopping-basket icon"></i>ZAKUP
+                        <i className="fas fa-shopping-basket icon"></i>ZAKUP
                     </button>
                     <button className="btn purple-btn" onClick={this.almostDeleteOffer}>
-                        <i class="fas fa-trash icon"></i>Usuń ofertę
+                        <i className="fas fa-trash icon"></i>Usuń ofertę
                     </button>
                 </div>
             </div>

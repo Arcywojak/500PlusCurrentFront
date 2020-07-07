@@ -10,12 +10,10 @@ import PropTypes from 'prop-types';
 
 class Offers extends React.Component{
 
-     /************************* TO NIE REDUX ALE DOBRZE TO MIEĆ *************************/
     static propTypes = {
         getOffers: PropTypes.func.isRequired,
         offer:PropTypes.object
     }
-     /************************* TO NIE REDUX ALE DOBRZE TO MIEĆ *************************/
 
 
     state={

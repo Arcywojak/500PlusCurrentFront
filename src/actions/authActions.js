@@ -48,20 +48,26 @@ export const tokenConfig = getState => {
 export const loadUser = () => (dispatch, getState) => {
     //user loading
     dispatch({type:USER_LOADING});
-   
 
-    axios
-    .get( '/api/auth/user', tokenConfig(getState)) //ZMIENIC NA ODPOWIEDNI ROUTE
-    .then(res => dispatch({
-        type: USER_LOADED,
-        payload:res.data
-    }))
-    .catch(err => {
-        dispatch(returnErrors(err.response.data, err.response.status) );
-        dispatch({
-            type: AUTH_ERROR
+    const email = sessionStorage.getItem("user_email");
+    const password = sessionStorage.getItem("user_password");
+   
+    if(email && password){
+        axios
+        .get(`http://vps817819.ovh.net:50/users/?email=${email}&password=${password}`) 
+        .then(res => dispatch({
+            type: USER_LOADED,
+            payload:res.data
+        }))
+        .catch(err => {
+            dispatch(returnErrors("Nie udało się załadować użytkownika") );
+            dispatch({
+                type: AUTH_ERROR
+            })
         })
-    })
+
+    }
+    
 };
 
 export const register = ({name, email, password}) => dispatch => {
@@ -139,6 +145,7 @@ export const login = ({email, password}) => dispatch => {
             sessionStorage.setItem('user_name', res.data.username)
             sessionStorage.setItem('user_id', res.data.id)
             sessionStorage.setItem('user_email', res.data.email)
+            sessionStorage.setItem('user_password', password)
 
             dispatch({
             type:CLEAR_ERRORS,

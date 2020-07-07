@@ -44,9 +44,9 @@ export default function(state = initialState, action) {
         case AUTH_ERROR :
         case REGISTER_FAIL :
 
-            sessionStorage.removeItem('user_name')
-            sessionStorage.removeItem('user_id')
-            sessionStorage.removeItem('user_email')
+           // sessionStorage.removeItem('user_name')
+           // sessionStorage.removeItem('user_id')
+           // sessionStorage.removeItem('user_email')
 
             return {
                 ...state,
