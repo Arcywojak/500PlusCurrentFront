@@ -50,8 +50,7 @@ class Account extends Component {
 
         window.addEventListener('beforeunload', (e) => {
             e.preventDefault();
-
-           console.log(e)
+            
            e.returnValue = "A"
             return "DO NOT LEAVE"
         })
@@ -158,7 +157,6 @@ render(){
     if(!this.props.isAuthenticated && !(this.props.isUserLoading)){
        return  <Redirect to="/" />
     }
-    console.log(this.props.isAuthenticated, this.props.isUserLoading)
     
     /*************************************************************/
 
@@ -247,8 +245,6 @@ render(){
 }
 
 const mapStateToProps = state => {
-
-    console.log(state)
 
     return {
         isAuthenticated: state.auth.isAuthenticated,

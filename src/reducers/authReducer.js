@@ -34,7 +34,7 @@ export default function(state = initialState, action) {
         case REGISTER_SUCCESS :
             return {
                 ...state,
-                ...action.payload,
+                user: action.payload,
                 isAuthenticated:true,
                 isLoading:false
 

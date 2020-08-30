@@ -7,6 +7,7 @@ import Nav from './components/nav/nav';
 import Home from './components/home/home'
 import Register from './components/register/register';
 import Login from './components/login/login';
+import AccountActivated from './components/accountActivated/accountActivated'
 import About from './components/about/about';
 import ForMedia from './components/forMedia/forMedia';
 import Regulations from './components/regulations/regulations';
@@ -41,6 +42,7 @@ class App extends Component {
             <Route path="/moje-konto" component={Account} />  
             <Route path="/oferty/:id" render={(props)=> <OfferDetails id={props.match.params.id}/>}/>
             <Route path="/oferty" component={Offers} />
+            <Route path="/aktywacja" component={AccountActivated} />
             <Route path="/faq" component={Faq} />
             <Route exact path="/" component={Home} />  
             <Route  component={Page404} />

@@ -19,7 +19,7 @@ class Register extends Component {
 
     componentDidUpdate(prevProps){
 
-        console.log("UPDATE")
+      //  console.log("UPDATE")
 
         const {error} = this.props;
 

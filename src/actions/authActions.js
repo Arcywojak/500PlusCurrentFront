@@ -25,6 +25,8 @@ import {
     CLEAR_ERRORS
 } from '../actions/types';
 
+import {AUTH_BASE_URL} from './_BASE_URL';
+
 // setup config/header and token
 export const tokenConfig = getState => {
     const token = getState().auth.token;
@@ -51,14 +53,24 @@ export const loadUser = () => (dispatch, getState) => {
 
     const email = sessionStorage.getItem("user_email");
     const password = sessionStorage.getItem("user_password");
+    
    
     if(email && password){
+
+        const URL = `${AUTH_BASE_URL}?email=${email}&password=${password}`
+
         axios
-        .get(`http://vps817819.ovh.net:50/users/?email=${email}&password=${password}`) 
-        .then(res => {console.log("SUCCESS", email, password);dispatch({
-            type: USER_LOADED,
-            payload:res.data
-        })})
+        .get(URL) 
+        .then(res => {console.log("SUCCESS", email, password);
+            dispatch({
+                type: USER_LOADED,
+                payload:res.data
+            });
+            dispatch({
+                type:CLEAR_ERRORS,
+                payload:res.data
+             });
+        })
         .catch(err => {
             dispatch(returnErrors("Nie udało się załadować użytkownika") );
             dispatch({
@@ -81,11 +93,13 @@ export const register = ({name, email, password}) => dispatch => {
     //parse values into string
     //const body = JSON.stringify({name, email, password})
 
+    const URL = `${AUTH_BASE_URL}?username=${name}&email=${email}&password=${password}`
+
     axios
-    .post(`http://vps817819.ovh.net:50/users/?email=${email}&password=${password}&username=${name}`)
+    .post(URL)
     .then(res => {
 
-        if(typeof(res.data) == "object"){
+     
 
             sessionStorage.setItem('user_name', res.data.username)
             sessionStorage.setItem('user_id', res.data.id)
@@ -100,17 +114,6 @@ export const register = ({name, email, password}) => dispatch => {
             type:REGISTER_SUCCESS,
             payload:res.data
             })
-
-        } else {
-
-            dispatch(
-            returnErrors("Rejestracja nie powiodło się!")
-            );
-            dispatch({
-                type:REGISTER_FAIL
-            });
-
-        }
     
     })
     .catch(err => {dispatch(
@@ -122,8 +125,6 @@ export const register = ({name, email, password}) => dispatch => {
     })
 };
 
-//export const editUser = 
-
 export const login = ({email, password}) => dispatch => {
 
    /* const config = {
@@ -134,14 +135,16 @@ export const login = ({email, password}) => dispatch => {
 
     //const body = JSON.stringify({email, password});
 
+    const URL = `${AUTH_BASE_URL}?email=${email}&password=${password}`
+
     axios
-    .get(`http://vps817819.ovh.net:50/users/?email=${email}&password=${password}`)
+    .get(URL)
     .then(res => {
 
-        /*Login success */
+        console.log(res.data)
 
-        if(typeof(res.data) == "object"){
-       
+        /*Login success */
+      
             sessionStorage.setItem('user_name', res.data.username)
             sessionStorage.setItem('user_id', res.data.id)
             sessionStorage.setItem('user_email', res.data.email)
@@ -157,16 +160,7 @@ export const login = ({email, password}) => dispatch => {
             payload: res.data
             })
 
-        } else {
-
-            dispatch(
-            returnErrors("Logowanie nie powiodło się!")
-            );
-            dispatch({
-                type:LOGIN_FAIL
-            });
-
-        }
+      
 
     })
     .catch(err => {

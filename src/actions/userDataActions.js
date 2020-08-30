@@ -19,12 +19,13 @@ import {
     ADD_PREFERENCE
 } from './types'
 
+import {USER_CHILDREN_BASE_URL, USER_PREFERENCES_BASE_URL} from "./_BASE_URL";
+
 import {returnErrors} from "./errorActions";
 
 export const getChildren = (id, userEmail) => dispatch => {
 
-    const URL = `http://vps817819.ovh.net:50/children/?parent_id=
-                ${id}&parent_email=${userEmail}`
+    const URL = `${USER_CHILDREN_BASE_URL}?parent_id=${id}&parent_email=${userEmail}`
 
     axios.get(URL)
          .then(res => {
@@ -39,8 +40,7 @@ export const getChildren = (id, userEmail) => dispatch => {
 
 export const getPreferences = (id, userEmail) => dispatch => {
 
-    const URL = `http://vps817819.ovh.net:50/preferences/?id=
-                ${id}&email=${userEmail}`
+    const URL = `${USER_PREFERENCES_BASE_URL}?id=${id}&email=${userEmail}`
 
     axios.get(URL)
          .then(res => {
@@ -55,8 +55,7 @@ export const getPreferences = (id, userEmail) => dispatch => {
 
 export const deleteChild = (kidId, userEmail) => dispatch => {
 
-    const URL = `http://vps817819.ovh.net:50/children/?child_id=
-                ${kidId}&parent_email=${userEmail}`
+    const URL = `${USER_CHILDREN_BASE_URL}?child_id=${kidId}&parent_email=${userEmail}`
 
     axios.delete(URL)
          .then(res => {
@@ -71,8 +70,7 @@ export const deleteChild = (kidId, userEmail) => dispatch => {
 
 export const deletePreference = (preferenceId, userEmail) => dispatch => {
 
-    const URL = `http://vps817819.ovh.net:50/children/?child_id=
-    ${preferenceId}&parent_email=${userEmail}`
+    const URL = `${USER_PREFERENCES_BASE_URL}?child_id=${preferenceId}&parent_email=${userEmail}`
 
     axios.delete(URL)
          .then(res => {
@@ -85,11 +83,14 @@ export const deletePreference = (preferenceId, userEmail) => dispatch => {
     
 }
 
-export const addChildren = (user_id, user_email, kid_name, kid_age) => dispatch => {
+export const addChild = (user_id, user_email, kid_name, kid_age) => dispatch => {
 
-    const URL = `http://vps817819.ovh.net:50/children/?parent_id=
-                ${user_id}&name=${kid_name}&age=
-                ${kid_age}&interests=Zabawa&parent_email=${user_email}`
+    const URL = `${USER_CHILDREN_BASE_URL}?
+                    parent_id=${user_id}&
+                    name=${kid_name}&
+                    age=${kid_age}&
+                    interests=Zabawa&
+                    parent_email=${user_email}`
 
     const kid = {
         parent_id : user_id,

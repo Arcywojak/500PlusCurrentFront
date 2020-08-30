@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {editUser} from '../../../actions/authActions';
+import {addKid, editUser} from '../../../actions/authActions';
 import exit from '../../../images/x.png';
 import boyAvatar from '../../../images/Boy Avatar.svg';
 import PropTypes from 'prop-types';
@@ -85,28 +85,6 @@ class AddKid extends Component {
      changeFavouriteGender = (e) => {
         this.setState({
             gender: e.target.id
-        })
-    }
-
-    submitKid = (e) =>{
-        e.preventDefault()
-
-        let {name, age} = this.state
-        
-        fetch(`http://vps817819.ovh.net:50/children/?parent_id=${sessionStorage.getItem('user_id')}&name=${name}&age=${age}&interests=Zabawa&parent_email=${sessionStorage.getItem('user_email')}`, {
-            method : "POST"
-        })
-        .then(response =>{
-            return response.json()
-        })
-        .then(data =>{
-
-            if(data == 'Child created properly'){
-                
-            }
-            else{
-                console.log(data)
-            }
         })
     }
 
@@ -259,7 +237,7 @@ render(){
                     </div>
                 </div>
 
-                <button className="btn purple-btn" onClick={this.submitKid}>
+                <button className="btn purple-btn">
                    Zapisz
                 </button>
             </form>   
@@ -270,7 +248,7 @@ render(){
 
 const mapStateToProps = state => {
       return{
-         //userId: state.auth.user.id
+         user: state.auth.user
       }
   }
 
